@@ -1,0 +1,57 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string path = "inputFile.txt";
+        string lineWithMinPosled = null;
+        int minPosledLength = Int32.MaxValue;
+
+        using (StreamReader reader = new StreamReader(path))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                int currentPosledLength = GetMinPosledLengthOfA(line);
+                if (currentPosledLength < minPosledLength)
+                {
+                    minPosledLength = currentPosledLength;
+                    lineWithMinPosled = line;
+                }
+            }
+        }
+
+        Console.WriteLine($"Строка с наименьшей подпоследовательностью символов 'a': {lineWithMinPosled}");
+    }
+
+    static int GetMinPosledLengthOfA(string line)
+    {
+        int minLen = Int32.MaxValue;
+        int currentLen = 0;
+
+        foreach (char c in line)
+        {
+            if (c == 'a')
+            {
+                currentLen++;
+            }
+            else
+            {
+                if (currentLen > 0 && currentLen < minLen)
+                {
+                    minLen = currentLen;
+                }
+                currentLen = 0;
+            }
+        }
+
+        if (currentLen > 0 && currentLen < minLen)
+        {
+            minLen = currentLen;
+        }
+
+        return minLen == Int32.MaxValue ? 0 : minLen;
+    }
+}

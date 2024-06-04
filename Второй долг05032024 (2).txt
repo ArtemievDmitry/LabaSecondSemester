@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<CallData> calls = new List<CallData>
+        {
+            new CallData("+79123456789", "+79876543210", new DateTime(2022, 1, 15), 20),
+            new CallData("+79123456789", "+79998887766", new DateTime(2022, 1, 17), 30),
+            new CallData("+79876543210", "+79123456789", new DateTime(2022, 1, 20), 25),
+            new CallData("+79998887766", "+79876543210", new DateTime(2022, 1, 20), 40),
+            new CallData("+79876543210", "+79123456789", new DateTime(2022, 1, 20), 15)
+        };
+
+        var ChasheZvonil = calls.Where(call => call.CallingNumber == "+79123456789")
+                                         .GroupBy(call => call.TargetNumber)
+                                         .OrderByDescending(group => group.Count())
+                                         .Select(group => new { Number = group.Key, Count = group.Count() })
+                                         .FirstOrDefault();
+
+        Console.WriteLine($"Абонент +79123456789 чаще всего звонил на номер: {ChasheZvonil?.Number}, количество звонков: {ChasheZvonil?.Count}");
+
+        var DolgotaZvonka = calls.GroupBy(call => call.CallingNumber)
+                                       .Select(group => new
+                                       {
+                                           Number = group.Key,
+                                           MaxMinutes = group.OrderByDescending(call => call.Minutes).First().TargetNumber
+                                       });
+
+        foreach(var item in DolgotaZvonka)
+        {
+            Console.WriteLine($"Абонент {item.Number} разговаривал наибольшее количество минут с номером: {item.MaxMinutes}");
+        }
+    }
+}
+
+class CallData
+{
+    public string CallingNumber { get; set; }
+    public string TargetNumber { get; set; }
+    public DateTime Date { get; set; }
+    public int Minutes { get; set; }
+
+    public CallData(string callingNumber, string targetNumber, DateTime date, int minutes)
+    {
+        CallingNumber = callingNumber;
+        TargetNumber = targetNumber;
+        Date = date;
+        Minutes = minutes;
+    }
+}

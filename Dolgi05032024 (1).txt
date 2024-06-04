@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        HashSet<int> set1 = new HashSet<int> { 1, 2, 3, 4 };
+        HashSet<int> set2 = new HashSet<int> { 3, 4, 5, 6 };
+        HashSet<int> set3 = new HashSet<int> { 4, 5, 6, 7 };
+
+        HashSet<int> Peresech = new HashSet<int>(set1);
+        Peresech.IntersectWith(set2);
+        Peresech.IntersectWith(set3);
+
+        HashSet<int> obied = new HashSet<int>(set1);
+        obied.UnionWith(set2);
+        obied.UnionWith(set3);
+
+        HashSet<int> complement1 = new HashSet<int>(union);
+        comp1.ExceptWith(set1);
+        HashSet<int> complement2 = new HashSet<int>(union);
+        comp2.ExceptWith(set2);
+        HashSet<int> complement3 = new HashSet<int>(union);
+        comp3.ExceptWith(set3);
+
+        Console.WriteLine("Пересечение множеств: " + string.Join(", ", Peresech));
+        Console.WriteLine("Объединение множеств: " + string.Join(", ", obied));
+        Console.WriteLine("Дополнение для множества 1: " + string.Join(", ", comp1));
+        Console.WriteLine("Дополнение для множества 2: " + string.Join(", ", comp2));
+        Console.WriteLine("Дополнение для множества 3: " + string.Join(", ", comp3));
+    }
+}

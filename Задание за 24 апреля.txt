@@ -1,0 +1,58 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string[] lines = File.ReadAllLines("input.txt");
+        List<char> charList = new List<char>();
+        foreach (string line in lines)
+        {
+            foreach (char c in line)
+            {
+                if (char.IsLetter(c))
+                {
+                    charList.Add(c);
+                }
+            }
+        }
+
+        Dictionary<char, int> charCount = new Dictionary<char, int>();
+        foreach (char c in charList)
+        {
+            if (charCount.ContainsKey(c))
+            {
+                charCount[c]++;
+            }
+            else
+            {
+                charCount[c] = 1;
+            }
+        }
+        char mostChastiyChar = ' ';
+        int maxCount = 0;
+        foreach (KeyValuePair<char, int> kvp in charCount)
+        {
+            if (kvp.Value > maxCount)
+            {
+                mostChastiyChar = kvp.Key;
+                maxCount = kvp.Value;
+            }
+        }
+
+        int uniqueCharCount = charCount.Count;
+
+        List<char> sortedChars = new List<char>(charCount.Keys);
+        sortedChars.Sort();
+        Console.WriteLine("Список символов в алфавитном порядке:");
+        foreach (char c in sortedChars)
+        {
+            Console.WriteLine(c);
+        }
+
+        Console.WriteLine($"Самый частый символ: {mostChastiyChar}");
+        Console.WriteLine($"Количество уникальных символов: {uniqueCharCount}");
+    }
+}

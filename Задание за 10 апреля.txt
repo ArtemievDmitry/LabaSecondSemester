@@ -1,0 +1,70 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+class Person
+{
+    public int YearOfBirth { get; set; }
+    public string CityOfBirth { get; set; }
+    public string CountryOfBirth { get; set; }
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<Person> people = new List<Person>();
+
+        Console.WriteLine("Укажите путь к файлу с данными");
+        Console.WriteLine("Учтите, что файл данных должен быть заполнен строками, содержащими год рождения, город рождения и родную страну гражданина, записанные через пробел.");
+        string way = Console.ReadLine();
+        StreamReader f = new StreamReader(way);
+        while (!f.EndOfStream)
+        {
+            string s = f.ReadLine();
+            string [] PersonData = s.Split(' ');
+            people.Add(new Person { YearOfBirth = Convert.ToInt32(PersonData[0]), CityOfBirth = PersonData[1], CountryOfBirth = PersonData[2] });
+        }
+        f.Close();
+
+        var groupedByYear = people.GroupBy(p => p.YearOfBirth);
+        WriteToFile("groupedByYear.txt", groupedByYear);
+
+        var groupedByCity = people.GroupBy(p => p.CityOfBirth);
+        WriteToFile("groupedByCity.txt", groupedByCity);
+
+        Console.Write("Введите страну рождения для фильтрации данных: ");
+        string country = Console.ReadLine();
+        var filteredByCountry = people.FindAll(p => p.CountryOfBirth.ToLower() == country.ToLower());
+        WriteToFile("filteredByCountry.txt", filteredByCountry);
+
+        Console.WriteLine("Готово!");
+    }
+
+    static void WriteToFile<T>(string fileName, IEnumerable<IGrouping<T, Person>> groupedData)
+    {
+        using (StreamWriter sw = new StreamWriter(fileName))
+        {
+            foreach (var group in groupedData)
+            {
+                sw.WriteLine($"\n{group.Key}:\n");
+                foreach (var person in group)
+                {
+                    sw.WriteLine($"Город: {person.CityOfBirth}, Страна: {person.CountryOfBirth}");
+                }
+            }
+        }
+    }
+
+    static void WriteToFile(string fileName, List<Person> filteredData)
+    {
+        using (StreamWriter sw = new StreamWriter(fileName))
+        {
+            foreach (var person in filteredData)
+            {
+                sw.WriteLine($"Год рождения: {person.YearOfBirth}, Город: {person.CityOfBirth}, Страна: {person.CountryOfBirth}");
+            }
+        }
+    }
+}

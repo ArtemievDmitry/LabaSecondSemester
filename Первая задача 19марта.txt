@@ -1,0 +1,101 @@
+using System;
+
+public delegate double MathOperation(double x, double y = 0);
+
+public interface IMathOperations
+{
+    double Add(double x, double y);
+    double Subtract(double x, double y);
+    double Multiply(double x, double y);
+    double Divide(double x, double y);
+    double Sqrt(double x);
+    double Sin(double x);
+    double Cos(double x);
+}
+
+public class MathCalculator : IMathOperations
+{
+    public double Add(double x, double y) => x + y;
+    public double Subtract(double x, double y) => x - y;
+    public double Multiply(double x, double y) => x * y;
+    public double Divide(double x, double y) => x / y;
+    public double Sqrt(double x) => Math.Sqrt(x);
+    public double Sin(double x) => Math.Sin(x);
+    public double Cos(double x) => Math.Cos(x);
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        MathCalculator calculator = new MathCalculator();
+
+        Console.WriteLine("Выберите операцию:");
+        Console.WriteLine("1. Сложение");
+        Console.WriteLine("2. Вычитание");
+        Console.WriteLine("3. Умножение");
+        Console.WriteLine("4. Деление");
+        Console.WriteLine("5. Извлечение корня");
+        Console.WriteLine("6. Нахождение sin");
+        Console.WriteLine("7. Нахождение cos");
+
+        int choice = Convert.ToInt32(Console.ReadLine());
+
+        double result = 0;
+
+        switch (choice)
+        {
+            case 1:
+                Console.WriteLine("Введите два числа:");
+                double a = Convert.ToDouble(Console.ReadLine());
+                double b = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Add(a, b);
+                break;
+
+            case 2:
+                Console.WriteLine("Введите два числа:");
+                a = Convert.ToDouble(Console.ReadLine());
+                b = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Subtract(a, b);
+                break;
+
+            case 3:
+                Console.WriteLine("Введите два числа:");
+                a = Convert.ToDouble(Console.ReadLine());
+                b = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Multiply(a, b);
+                break;
+
+            case 4:
+                Console.WriteLine("Введите два числа:");
+                a = Convert.ToDouble(Console.ReadLine());
+                b = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Divide(a, b);
+                break;
+
+            case 5:
+                Console.WriteLine("Введите число:");
+                a = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Sqrt(a);
+                break;
+
+            case 6:
+                Console.WriteLine("Введите угол в радианах:");
+                a = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Sin(a);
+                break;
+
+            case 7:
+                Console.WriteLine("Введите угол в радианах:");
+                a = Convert.ToDouble(Console.ReadLine());
+                result = calculator.Cos(a);
+                break;
+
+            default:
+                Console.WriteLine("Некорректный выбор операции.");
+                break;
+        }
+
+        Console.WriteLine("Результат: " + result);
+    }
+}
