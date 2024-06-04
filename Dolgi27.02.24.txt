@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dolgi1
+{
+    internal class Program
+    {
+        static void Main()
+        {
+            Queue<string[]> Vvod = new Queue<string[]>();
+            Vvod.Enqueue(new string[] { "+79123456789", "2022-10-05", "14:30", "150" });
+            Vvod.Enqueue(new string[] { "+71234567890", "2022-10-05", "15:00", "120" });
+            Vvod.Enqueue(new string[] { "+74987654321", "2022-10-06", "11:45", "180" });
+            Vvod.Enqueue(new string[] { "+79123456789", "2022-10-10", "09:00", "300" });
+            Vvod.Enqueue(new string[] { "+74987654321", "2022-10-15", "20:00", "330" });
+
+            Dictionary<string, int> MinutVoobshe = new Dictionary<string, int>();
+            Dictionary<string, int> hashTable = new Dictionary<string, int>();
+
+            while (Vvod.Count > 0)
+            {
+                string[] data = Vvod.Dequeue();
+                string phoneNumber = data[0];
+                int minutes = int.Parse(data[3]);
+
+                if (MinutVoobshe.ContainsKey(phoneNumber))
+                    MinutVoobshe[phoneNumber] += minutes;
+                else
+                    MinutVoobshe[phoneNumber] = minutes;
+
+                hashTable[phoneNumber] = MinutVoobshe[phoneNumber];
+            }
+
+            Console.WriteLine("# Месячный отчёт по общей сумме минут каждого номера");
+            Console.WriteLine("## Данные из словаря:");
+            Console.WriteLine("| Номер телефона | Кол-во минут |");
+            foreach (var entry in MinutVoobshe)
+            {
+                Console.WriteLine($"| {entry.Key}\t  | {entry.Value}\t\t |");
+            }
+
+            Console.WriteLine("\n## Данные из хеш-таблицы:");
+            foreach (var entry in hashTable)
+            {
+                Console.WriteLine($"{{ '{entry.Key}': {entry.Value} }}");
+            }
+            Console.ReadKey();
+        }
+    }
+
+}
