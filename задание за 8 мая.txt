@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+class BankAccount
+{
+    public string AccountNumber { get; set; }
+    public string FullName { get; set; }
+    public double Income { get; set; }
+    public double Expense { get; set; }
+    public double Tax { get; set; }
+    public double Balance { get; set; }
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<BankAccount> accounts = new List<BankAccount>
+{
+    new BankAccount { AccountNumber = "001", FullName = "Иванов Иван Иванович", Income = 50000, Expense = 60000, Tax = 2500, Balance = -10000 },
+    new BankAccount { AccountNumber = "002", FullName = "Петров Петр Петрович", Income = 80000, Expense = 70000, Tax = 4000, Balance = 10000 },
+    new BankAccount { AccountNumber = "003", FullName = "Сидоров Сидор Сидорович", Income = 30000, Expense = 20000, Tax = 1500, Balance = 10000 },
+    new BankAccount { AccountNumber = "004", FullName = "Иванова Мария Ивановна", Income = 100000, Expense = 90000, Tax = 5000, Balance = 10000 }
+};
+        var minusBalanceClients = from account in accounts
+                                     where account.Balance < 0
+                                     select account;
+        Console.WriteLine("Клиенты с отрицательным балансом:");
+        foreach (var account in minusBalanceClients)
+        {
+            Console.WriteLine($"Номер счета: {account.AccountNumber}, ФИО: {account.FullName}, Баланс: {account.Balance}");
+        }
+        int positiveBalanceCount = (from account in accounts
+                                    where account.Balance >= 0
+                                    select account).Count();
+        Console.WriteLine($"Количество клиентов с положительным балансом: {positiveBalanceCount}");
+        var maxIncomeClients = (from account in accounts
+                                orderby account.Income descending
+                                select account)
+                               .Take(1);
+        Console.WriteLine("Клиенты с максимальным доходом:");
+        foreach (var account in maxIncomeClients)
+        {
+            Console.WriteLine($"Номер счета: {account.AccountNumber}, ФИО: {account.FullName}, Доход: {account.Income}");
+        }
+        double totalTax = (from account in accounts
+                           select account.Tax).Sum();
+
+        Console.WriteLine($"Общая сумма налогов: {totalTax}");
+    }
+}

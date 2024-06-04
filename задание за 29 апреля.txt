@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        List<string> stringList = new List<string> { "apple", "banana", "cherry", "strawberry", "elderberry", "fig" };
+
+        IEnumerable<string> evenLengthStrings = stringList.Where(s => s.Length % 2 == 0);
+        Console.WriteLine("Элементы четной длины:");
+        foreach (string s in evenLengthStrings)
+        {
+            Console.WriteLine(s);
+        }
+
+        for (int i = 0; i < stringList.Count; i += 2)
+        {
+            stringList.RemoveAt(i);
+        }
+
+        evenLengthStrings = stringList.Where(s => s.Length % 2 == 0);
+        Console.WriteLine("\nЭлементы четной длины после удаления каждого второго элемента:");
+        foreach (string s in evenLengthStrings)
+        {
+            Console.WriteLine(s);
+        }
+    }
+}

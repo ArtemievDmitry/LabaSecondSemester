@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+       int[] arr = { 12, 45, 67, 89, 23, 56, 78, 34 };
+
+       var evenDigitSum = arr.Where(x => GetDigitSum(x) % 2 == 0);
+
+       foreach (var item in evenDigitSum)
+         {
+          Console.WriteLine(item);
+         }
+
+         int GetDigitSum(int num)
+        {
+         int sum = 0;
+         while (num > 0)
+        {
+           sum += num % 10;
+           num /= 10;
+        }
+         return sum;
+        }
+
+    }
+}
